@@ -232,32 +232,22 @@ class App extends React.Component {
     const maxPage = maximumPage(this.state);
 
     return (
-      <Router>
-        <div className="App container-fluid">
-          <div className="row flex-nowrap">
-            <Sidebar />
-            <Routes>
-              <Route exact path="/sell-form" element={<SellForm />}></Route>
-              <Route
-                path="*"
-                element={
-                  <Store
-                    products={this.state.products
-                      .sort(sortProducts(this.state))
-                      .slice(minimumIdx, maximumIdx)}
-                    onPageChange={pageChangeHandler}
-                    maxPage={maxPage}
-                    filterBy={this.state.filterBy}
-                    onFilterChange={filterChangeHandler}
-                    onSortTypeChange={sortTypeChangeHandler}
-                    sortType={this.state.ascending}
-                  />
-                }
-              ></Route>
-            </Routes>
-          </div>
+      <div className="App container-fluid">
+        <div className="row flex-nowrap">
+          <Sidebar />
+          <Store
+            products={this.state.products
+              .sort(sortProducts(this.state))
+              .slice(minimumIdx, maximumIdx)}
+            onPageChange={pageChangeHandler}
+            maxPage={maxPage}
+            filterBy={this.state.filterBy}
+            onFilterChange={filterChangeHandler}
+            onSortTypeChange={sortTypeChangeHandler}
+            sortType={this.state.ascending}
+          />
         </div>
-      </Router>
+      </div>
     );
   }
 }
