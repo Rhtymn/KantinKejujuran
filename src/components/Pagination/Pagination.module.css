@@ -1,0 +1,10 @@
+.pagination button {
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+}
+
+.pagination {
+  position: absolute;
+  bottom: 5px;
+}

@@ -1,0 +1,14 @@
+.sort_type {
+  border: none;
+  text-decoration: none;
+  background-color: white;
+  padding: 0 10px;
+  height: 24px;
+  font-size: 20px;
+  line-height: 100%;
+}
+
+.filter label {
+  color: white;
+  font-size: 13px;
+}

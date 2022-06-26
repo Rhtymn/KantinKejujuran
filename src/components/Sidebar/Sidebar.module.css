@@ -1,0 +1,62 @@
+.sidebar {
+  position: relative;
+  color: white;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  padding-left: 15px;
+}
+
+.sidebar a:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.navList {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 50px;
+  transform: translateY(12px);
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.navItem {
+  display: flex;
+}
+
+.navItem.active {
+  background-color: white;
+  color: black;
+}
+
+.navItem.active a {
+  background-color: white;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .navList {
+    position: relative;
+    transform: translateY(-12px);
+  }
+  .navItem {
+    justify-content: center;
+    width: 50px;
+  }
+}
+/* .sidebar {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+} */

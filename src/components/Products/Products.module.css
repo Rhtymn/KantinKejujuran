@@ -1,0 +1,29 @@
+/* .products {
+  height: 100vh;
+  z-index: 2;
+  position: absolute;
+  right: 10px;
+  top: 0;
+} */
+
+.products h1 {
+  font-size: 2rem;
+}
+
+/* @media (min-width: 768px) {
+  .products {
+    right: 3%;
+  }
+} */
+
+/* @media (min-width: 1200px) {
+  .products {
+    right: 5%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .products {
+    right: 7%;
+  }
+} */
