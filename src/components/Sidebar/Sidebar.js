@@ -7,6 +7,12 @@ class Sidebar extends React.Component {
     this.state = { activeNav: "store" };
   }
   render() {
+    // const activeNavHandler = (e) => {
+    //   const newActiveNav = e.target.parentElement.classList[0];
+    //   if (newActiveNav != "store" && newActiveNav != "sellForm") return;
+    //   if (newActiveNav === "store") this.setState({ activeNav: "store" });
+    //   if (newActiveNav === "sellForm") this.setState({ activeNav: "sellForm" });
+    // };
     const activeNavHandler = (e) => {
       const newActiveNav = e.target.closest("a").classList[0];
       if (newActiveNav === "store") this.setState({ activeNav: "store" });
@@ -27,10 +33,10 @@ class Sidebar extends React.Component {
                 this.state.activeNav === "store" ? style.active : ""
               }`}
             >
-              <a className={`store`}>
+              <Link to="/store" className={`store`}>
                 <i className="store fs-4 fa-solid fa-store"></i>
                 <span className="ms-3 d-none d-sm-inline">Store</span>
-              </a>
+              </Link>
             </li>
 
             <li
@@ -38,14 +44,10 @@ class Sidebar extends React.Component {
                 this.state.activeNav === "sellForm" ? style.active : ""
               }`}
             >
-              <a
-                className="sellForm"
-                data-bs-toggle="modal"
-                data-bs-target="#sell_form"
-              >
+              <Link to="/sell-form" className="sellForm">
                 <i className="sellForm fs-4 fa-solid fa-circle-plus"></i>
                 <span className="ms-3 d-none d-sm-inline">Sell Item</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

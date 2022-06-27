@@ -3,7 +3,7 @@ import style from "./Products.module.css";
 import Product from "../Product/Product";
 import Pagination from "../Pagination/Pagination";
 import Filter from "../Filter/Filter";
-import Form from "../Form/Form";
+
 class Products extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +28,6 @@ class Products extends React.Component {
             <Product attribute={product} key={product.id} />
           ))}
         </div>
-        <Form />
         <Pagination
           onPageChange={this.props.onPageChange}
           maxPage={this.props.maxPage}

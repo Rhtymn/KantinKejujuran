@@ -1,13 +1,16 @@
 form {
   padding: 15px 0;
   color: white;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  width: 300px;
-  border-radius: 10px;
+  /* background-color: aqua; */
+}
+
+form h1 {
+  font-size: 30px;
+}
+
+form .btn_submit {
+  padding: 5px 10px;
+  border: none;
 }
 
 .input_container {
