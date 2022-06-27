@@ -5,17 +5,7 @@ class Store extends React.Component {
     super(props);
   }
   render() {
-    return (
-      <Products
-        products={this.props.products}
-        onPageChange={this.props.onPageChange}
-        maxPage={this.props.maxPage}
-        filterBy={this.props.filterBy}
-        onFilterChange={this.props.onFilterChange}
-        onSortTypeChange={this.props.onSortTypeChange}
-        sortType={this.props.sortType}
-      />
-    );
+    return <Products />;
   }
 }
 

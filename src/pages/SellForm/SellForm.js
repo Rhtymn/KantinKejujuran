@@ -8,7 +8,7 @@ class SellForm extends React.Component {
   render() {
     return (
       <div className={`col col-md-6 col-lg-4 mx-auto text-center py-3`}>
-        <Form onAddProduct={this.props.onAddProduct} />
+        <Form />
       </div>
     );
   }

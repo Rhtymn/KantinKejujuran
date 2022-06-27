@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./Form.module.css";
 import moment from "moment";
+import axios from "axios";
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,7 @@ class Form extends React.Component {
       alert: { isAlert: false, message: "" },
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.saveProduct = this.saveProduct.bind(this);
   }
 
   // callback to handle when input change
@@ -23,10 +24,8 @@ class Form extends React.Component {
     if (idElement === "pdesc") this.setState({ productDesc: value });
   }
 
-  // callback to handle submit form
-  handleSubmit(e) {
+  saveProduct = async (e) => {
     e.preventDefault();
-
     // price input not number
     if (!+this.state.productPrice) {
       this.setState({
@@ -39,40 +38,35 @@ class Form extends React.Component {
       return;
     }
 
-    // make a input object
-    const { productName, productPrice, productDesc } = this.state;
-    const product = {
-      name: productName,
-      price: productPrice,
-      description: productDesc,
-      timestamp: moment(),
-    };
+    try {
+      await axios.post("http://localhost:5000/products", {
+        name: this.state.productName,
+        price: +this.state.productPrice,
+        description: this.state.productDesc,
+      });
 
-    // reset input element
-    this.setState({ productName: "", productPrice: "", productDesc: "" });
+      // alert success add a product
+      this.setState({
+        alert: {
+          isAlert: true,
+          message: "Success adding new product",
+          type: "alert-success",
+        },
+      });
 
-    // send new product to App component
-    this.props.onAddProduct(product);
-
-    // alert success add a product
-    this.setState({
-      alert: {
-        isAlert: true,
-        message: "Success adding new product",
-        type: "alert-success",
-      },
-    });
-  }
-
-  // imgInputChange(e) {
-  //   // console.log(e.target.files);
-  //   const file = e.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     alert(reader.result);
-  //   };
-  // }
+      // reset input element
+      this.setState({ productName: "", productPrice: "", productDesc: "" });
+    } catch (error) {
+      // alert failed add a product
+      this.setState({
+        alert: {
+          isAlert: true,
+          message: "Failed adding new product",
+          type: "alert-danger",
+        },
+      });
+    }
+  };
 
   render() {
     return (
@@ -83,7 +77,7 @@ class Form extends React.Component {
           </div>
         ) : null}
         <div className={`${style["form_container"]} container bg-dark rounded`}>
-          <form className={`${style["form"]}`} onSubmit={this.handleSubmit}>
+          <form className={`${style["form"]}`} onSubmit={this.saveProduct}>
             <h1>Product Form</h1>
             <div className={`${style["input_container"]}`}>
               <label htmlFor="pname">Product name:</label>

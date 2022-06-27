@@ -1,6 +1,11 @@
 import React from "react";
 import style from "./Product.module.css";
-import { TIME_FORMAT } from "../../Config";
+import TimeAgo from "javascript-time-ago";
+import id from "../../../node_modules/javascript-time-ago/locale/id.json";
+// SET LOCALE ID TimeAgo
+TimeAgo.addDefaultLocale(id);
+const timeAgo = new TimeAgo("id-ID");
+
 class Product extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +24,8 @@ class Product extends React.Component {
               {this.props.attribute.name}
             </span>
             <span className={`${style["product_timestamp"]} mb-1`}>
-              {this.props.attribute.timestamp.fromNow()}
+              {this.props.attribute.timestamp.startOf("hour").fromNow()}
+              {/* {timeAgo.format(this.props.attribute.timestamp)} */}
             </span>
             <p className={`${style["product_description"]} mb-1`}>
               {this.props.attribute.description}
@@ -37,5 +43,4 @@ class Product extends React.Component {
     );
   }
 }
-
 export default Product;
