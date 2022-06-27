@@ -3,7 +3,7 @@ import style from "./Product.module.css";
 import TimeAgo from "javascript-time-ago";
 import id from "../../../node_modules/javascript-time-ago/locale/id.json";
 // SET LOCALE ID TimeAgo
-TimeAgo.addDefaultLocale(id);
+TimeAgo.addLocale(id);
 const timeAgo = new TimeAgo("id-ID");
 
 class Product extends React.Component {
@@ -24,13 +24,12 @@ class Product extends React.Component {
               {this.props.attribute.name}
             </span>
             <span className={`${style["product_timestamp"]} mb-1`}>
-              {this.props.attribute.timestamp.startOf("hour").fromNow()}
-              {/* {timeAgo.format(this.props.attribute.timestamp)} */}
+              {/* {this.props.attribute.timestamp.startOf("hour").fromNow()} */}
+              {timeAgo.format(this.props.attribute.timestamp)}
             </span>
             <p className={`${style["product_description"]} mb-1`}>
               {this.props.attribute.description}
             </p>
-            {/* <span className={`${style["product_price"]}`}>5.000</span> */}
           </div>
         </div>
         <div className={`row justify-content-between`}>

@@ -57,15 +57,13 @@ class Products extends React.Component {
 
   getProducts = async () => {
     const response = await axios.get("http://localhost:5000/products");
-    const data = response.data;
-    console.log(data);
     const products = response.data.map((product) => {
       return {
         id: product.id,
         name: product.name,
         price: product.price,
         description: product.description,
-        timestamp: moment(product.createdAt),
+        timestamp: new Date(Date.parse(product.createdAt.replace(/[-]/g, "/"))),
       };
     });
 
