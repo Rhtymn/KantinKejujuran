@@ -21,7 +21,7 @@ class Product extends React.Component {
   }
 
   async productBuyHandler() {
-    // price input not number
+    // user doesn't enter price
     if (this.state.userPay === "") {
       this.setState({
         alert: {
@@ -33,12 +33,12 @@ class Product extends React.Component {
       return;
     }
 
-    // user doesn't enter price
-    if (!+this.state.userPay) {
+    // price input not number
+    if (!+this.state.userPay || +this.state.userPay < 0) {
       this.setState({
         alert: {
           isAlert: true,
-          message: "your choosen price must a number",
+          message: "your choosen price must a number & more than 0",
           type: "alert-danger",
         },
       });
@@ -47,17 +47,6 @@ class Product extends React.Component {
 
     // add userpay to balance
     const newBalance = +this.props.balance + +this.state.userPay;
-
-    // update to database
-    await axios.patch("http://localhost:5000/canteen-balance/1", {
-      balance: newBalance,
-    });
-
-    // change isPurchased state
-    this.setState({ isPurchased: true });
-
-    // reset input
-    this.setState({ userPay: "" });
 
     // set success buy alert
     if (+this.state.userPay >= +this.props.attribute.price) {
@@ -79,6 +68,18 @@ class Product extends React.Component {
         },
       });
     }
+    // change isPurchased state & reset input
+    this.setState({ isPurchased: true, userPay: "" });
+
+    // update balance in database
+    await axios.patch("http://localhost:5000/canteen-balance/1", {
+      balance: newBalance,
+    });
+
+    // delete product from database
+    await axios.delete(
+      `http://localhost:5000/products/${this.props.attribute.id}`
+    );
   }
 
   userPayChangeHandler(e) {
