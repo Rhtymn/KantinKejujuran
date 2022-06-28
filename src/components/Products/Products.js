@@ -127,7 +127,7 @@ class Products extends React.Component {
             <Product
               attribute={product}
               key={product.id}
-              onBuyProduct={this.props.onBuyProduct}
+              balance={this.props.balance}
             />
           ))}
         </div>

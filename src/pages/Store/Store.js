@@ -5,7 +5,7 @@ class Store extends React.Component {
     super(props);
   }
   render() {
-    return <Products />;
+    return <Products balance={this.props.balance} />;
   }
 }
 

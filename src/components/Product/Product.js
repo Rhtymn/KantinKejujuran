@@ -11,15 +11,29 @@ class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isPurchased: false,
       userPay: "",
       alert: { isAlert: false, message: "", type: "" },
     };
     this.productBuyHandler = this.productBuyHandler.bind(this);
     this.userPayChangeHandler = this.userPayChangeHandler.bind(this);
+    this.reloadHandler = this.reloadHandler.bind(this);
   }
 
   async productBuyHandler() {
     // price input not number
+    if (this.state.userPay === "") {
+      this.setState({
+        alert: {
+          isAlert: true,
+          message: "Please choose price which you want",
+          type: "alert-danger",
+        },
+      });
+      return;
+    }
+
+    // user doesn't enter price
     if (!+this.state.userPay) {
       this.setState({
         alert: {
@@ -30,6 +44,17 @@ class Product extends React.Component {
       });
       return;
     }
+
+    // add userpay to balance
+    const newBalance = +this.props.balance + +this.state.userPay;
+
+    // update to database
+    await axios.patch("http://localhost:5000/canteen-balance/1", {
+      balance: newBalance,
+    });
+
+    // change isPurchased state
+    this.setState({ isPurchased: true });
 
     // reset input
     this.setState({ userPay: "" });
@@ -58,6 +83,22 @@ class Product extends React.Component {
 
   userPayChangeHandler(e) {
     this.setState({ userPay: e.target.value });
+  }
+
+  reloadHandler(e) {
+    if (!this.state.alert.isAlert) {
+      // reset input
+      this.setState({ userPay: "" });
+      return;
+    }
+    const element = e.target;
+    if (
+      element.classList.contains("overlay") ||
+      element.classList.contains("confirm") ||
+      element.classList.contains("btn-close")
+    ) {
+      window.location.reload(false);
+    }
   }
 
   render() {
@@ -96,11 +137,12 @@ class Product extends React.Component {
         </div>
 
         <div
-          className="modal fade"
+          className="modal fade overlay"
           id="confirmationModal"
           tabIndex="-1"
           aria-labelledby="confirmationModal"
           aria-hidden="true"
+          onClick={this.reloadHandler}
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
@@ -124,38 +166,48 @@ class Product extends React.Component {
                     {this.state.alert.message}
                   </div>
                 ) : null}
-                <form>
-                  <div className={`${style["input_container"]}`}>
-                    <label htmlFor="pprice" className="text-black">
-                      How much will you pay ?
-                    </label>
-                    <input
-                      type="text"
-                      id="pprice"
-                      value={this.state.userPay}
-                      onChange={this.userPayChangeHandler}
-                      required
-                      className="mt-2"
-                    ></input>
-                  </div>
-                </form>
+                {!this.state.isPurchased ? (
+                  <form>
+                    <div className={`${style["input_container"]}`}>
+                      <label htmlFor="pprice" className="text-black">
+                        How much will you pay ?
+                      </label>
+                      <input
+                        type="text"
+                        id="pprice"
+                        value={this.state.userPay}
+                        onChange={this.userPayChangeHandler}
+                        required
+                        className="mt-2"
+                      ></input>
+                    </div>
+                  </form>
+                ) : null}
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={this.productBuyHandler}
-                  type="button"
-                  className="btn btn-primary"
-                >
-                  Buy
-                </button>
-              </div>
+              {!this.state.isPurchased ? (
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={this.productBuyHandler}
+                    type="button"
+                    className="btn btn-primary"
+                  >
+                    Buy
+                  </button>
+                </div>
+              ) : (
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary confirm">
+                    OK
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

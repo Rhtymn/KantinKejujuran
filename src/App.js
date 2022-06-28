@@ -16,9 +16,14 @@ class App extends React.Component {
     this.state = { canteenBalance: null };
   }
 
-  getCanteenBalance(balance) {
+  componentDidMount() {
+    this.getCanteenBalance();
+  }
+
+  async getCanteenBalance() {
+    const response = await axios.get("http://localhost:5000/canteen-balance");
+    const balance = response.data[0].balance;
     this.setState({ canteenBalance: balance });
-    console.log(this.state.canteenBalance);
   }
 
   render() {
@@ -27,10 +32,13 @@ class App extends React.Component {
         <div className="App container-fluid">
           <div className="row flex-nowrap">
             <Sidebar />
-            <CanteenBalance sendBalance={this.getCanteenBalance.bind(this)} />
+            <CanteenBalance balance={this.state.canteenBalance} />
             <Routes>
               <Route exact path="/sell-form" element={<SellForm />}></Route>
-              <Route path="*" element={<Store />}></Route>
+              <Route
+                path="*"
+                element={<Store balance={this.state.canteenBalance} />}
+              ></Route>
             </Routes>
           </div>
         </div>
