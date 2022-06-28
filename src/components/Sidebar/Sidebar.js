@@ -7,12 +7,6 @@ class Sidebar extends React.Component {
     this.state = { activeNav: "store" };
   }
   render() {
-    // const activeNavHandler = (e) => {
-    //   const newActiveNav = e.target.parentElement.classList[0];
-    //   if (newActiveNav != "store" && newActiveNav != "sellForm") return;
-    //   if (newActiveNav === "store") this.setState({ activeNav: "store" });
-    //   if (newActiveNav === "sellForm") this.setState({ activeNav: "sellForm" });
-    // };
     const activeNavHandler = (e) => {
       const newActiveNav = e.target.closest("a").classList[0];
       if (newActiveNav === "store") this.setState({ activeNav: "store" });

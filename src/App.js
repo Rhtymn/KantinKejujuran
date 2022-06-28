@@ -2,20 +2,23 @@ import React from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Store from "./pages/Store/Store";
 import SellForm from "./pages/SellForm/SellForm";
+import CanteenBalance from "./components/CanteenBalance/CanteenBalance";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import moment from "moment";
-import "moment/locale/id";
-
-// SET LOCALE ID MOMENT.JS
-moment.locale("id");
+import axios from "axios";
 
 /**
  * TODO
- * Convert SQL DateTime to Javascript Date Object
+ * Implements Buy Fiture
  */
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { canteenBalance: null };
+  }
+
+  getCanteenBalance(balance) {
+    this.setState({ canteenBalance: balance });
+    console.log(this.state.canteenBalance);
   }
 
   render() {
@@ -24,6 +27,7 @@ class App extends React.Component {
         <div className="App container-fluid">
           <div className="row flex-nowrap">
             <Sidebar />
+            <CanteenBalance sendBalance={this.getCanteenBalance.bind(this)} />
             <Routes>
               <Route exact path="/sell-form" element={<SellForm />}></Route>
               <Route path="*" element={<Store />}></Route>

@@ -1,0 +1,15 @@
+.container {
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: end;
+  padding: 0;
+}
+
+.balance {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  padding: 5px 10px;
+  border-radius: 10px;
+}

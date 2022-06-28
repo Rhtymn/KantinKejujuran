@@ -29,6 +29,21 @@
   align-items: center;
 }
 
+.input_container {
+  /* background-color: brown; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 15px;
+  padding: 0 40px;
+  padding-top: 25px;
+}
+
+.input_container label {
+  position: absolute;
+  top: 0;
+}
+
 @media (min-width: 1200px) {
   .product .product_image {
     height: 6rem;

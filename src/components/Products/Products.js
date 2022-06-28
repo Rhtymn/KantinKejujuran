@@ -4,7 +4,6 @@ import Product from "../Product/Product";
 import Pagination from "../Pagination/Pagination";
 import Filter from "../Filter/Filter";
 import axios from "axios";
-import moment from "moment";
 import {
   sortProducts,
   minIdx,
@@ -112,7 +111,7 @@ class Products extends React.Component {
 
     return (
       <div
-        className={`${style.products} col py-3 text-center d-flex flex-column align-items-center`}
+        className={`${style.products} col py-3 text-center mt-5 d-flex flex-column align-items-center`}
       >
         <h1 className="">Selled Product</h1>
         <Filter
@@ -125,7 +124,11 @@ class Products extends React.Component {
           className={`${style["product_container"]} mb-3 mt-2 container-fluid bg-dark row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
         >
           {this.state.products.slice(minimumIdx, maximumIdx).map((product) => (
-            <Product attribute={product} key={product.id} />
+            <Product
+              attribute={product}
+              key={product.id}
+              onBuyProduct={this.props.onBuyProduct}
+            />
           ))}
         </div>
         <Pagination onPageChange={this.pageChangeHandler} maxPage={maxPage} />
