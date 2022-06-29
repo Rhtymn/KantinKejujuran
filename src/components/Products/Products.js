@@ -128,6 +128,8 @@ class Products extends React.Component {
               attribute={product}
               key={product.id}
               balance={this.props.balance}
+              getBalance={this.props.getBalance}
+              getProducts={this.getProducts.bind(this)}
             />
           ))}
         </div>

@@ -8,7 +8,7 @@ import axios from "axios";
 
 /**
  * TODO
- * Implements Buy Fiture
+ * Fix buy product bug: move modal to store component/using window.reload
  */
 class App extends React.Component {
   constructor(props) {
@@ -32,12 +32,25 @@ class App extends React.Component {
         <div className="App container-fluid">
           <div className="row flex-nowrap">
             <Sidebar />
-            <CanteenBalance balance={this.state.canteenBalance} />
             <Routes>
-              <Route exact path="/sell-form" element={<SellForm />}></Route>
+              <Route
+                exact
+                path="/sell-form"
+                element={
+                  <SellForm
+                    balance={this.state.canteenBalance}
+                    getBalance={this.getCanteenBalance.bind(this)}
+                  />
+                }
+              ></Route>
               <Route
                 path="*"
-                element={<Store balance={this.state.canteenBalance} />}
+                element={
+                  <Store
+                    balance={this.state.canteenBalance}
+                    getBalance={this.getCanteenBalance.bind(this)}
+                  />
+                }
               ></Route>
             </Routes>
           </div>

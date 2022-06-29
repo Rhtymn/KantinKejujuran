@@ -21,72 +21,79 @@ class Product extends React.Component {
   }
 
   async productBuyHandler() {
-    // user doesn't enter price
-    if (this.state.userPay === "") {
-      this.setState({
-        alert: {
-          isAlert: true,
-          message: "Please choose price which you want",
-          type: "alert-danger",
-        },
+    try {
+      // user doesn't enter price
+      if (this.state.userPay === "") {
+        this.setState({
+          alert: {
+            isAlert: true,
+            message: "Please choose price which you want",
+            type: "alert-danger",
+          },
+        });
+        return;
+      }
+
+      // price input not number
+      if (!+this.state.userPay || +this.state.userPay < 0) {
+        this.setState({
+          alert: {
+            isAlert: true,
+            message: "your choosen price must a number & more than 0",
+            type: "alert-danger",
+          },
+        });
+        return;
+      }
+
+      // add userpay to balance
+      const newBalance = +this.props.balance + +this.state.userPay;
+
+      // set success buy alert
+      if (+this.state.userPay >= +this.props.attribute.price) {
+        // user honest
+        this.setState({
+          alert: {
+            isAlert: true,
+            message: "Thanks for being honest person! i'm appreciate it!",
+            type: "alert-success",
+          },
+        });
+      } else {
+        // user lie
+        this.setState({
+          alert: {
+            isAlert: true,
+            message: "I know you're lying! but you can take that product",
+            type: "alert-warning",
+          },
+        });
+      }
+      // change isPurchased state & reset input
+      this.setState({ isPurchased: true, userPay: "" });
+
+      // update balance in database
+      await axios.patch("http://localhost:5000/canteen-balance/1", {
+        balance: newBalance,
       });
-      return;
+
+      // delete product from database
+      await axios.delete(
+        `http://localhost:5000/products/${this.props.attribute.id}`
+      );
+
+      // re-fetch canteen balance from database
+      await this.props.getBalance();
+    } catch (error) {
+      console.log(error);
     }
-
-    // price input not number
-    if (!+this.state.userPay || +this.state.userPay < 0) {
-      this.setState({
-        alert: {
-          isAlert: true,
-          message: "your choosen price must a number & more than 0",
-          type: "alert-danger",
-        },
-      });
-      return;
-    }
-
-    // add userpay to balance
-    const newBalance = +this.props.balance + +this.state.userPay;
-
-    // set success buy alert
-    if (+this.state.userPay >= +this.props.attribute.price) {
-      // user honest
-      this.setState({
-        alert: {
-          isAlert: true,
-          message: "Thanks for being honest person! i'm appreciate it!",
-          type: "alert-success",
-        },
-      });
-    } else {
-      // user lie
-      this.setState({
-        alert: {
-          isAlert: true,
-          message: "I know you're lying! but you can take that product",
-          type: "alert-warning",
-        },
-      });
-    }
-    // change isPurchased state & reset input
-    this.setState({ isPurchased: true, userPay: "" });
-
-    // update balance in database
-    await axios.patch("http://localhost:5000/canteen-balance/1", {
-      balance: newBalance,
-    });
-
-    // delete product from database
-    await axios.delete(
-      `http://localhost:5000/products/${this.props.attribute.id}`
-    );
   }
 
   userPayChangeHandler(e) {
     this.setState({ userPay: e.target.value });
   }
 
-  reloadHandler(e) {
+  async reloadHandler(e) {
     if (!this.state.alert.isAlert) {
       // reset input
       this.setState({ userPay: "" });
@@ -98,7 +105,8 @@ class Product extends React.Component {
       element.classList.contains("confirm") ||
       element.classList.contains("btn-close")
     ) {
-      window.location.reload(false);
+      // re-fetch products from database
+      await this.props.getProducts();
     }
   }
 
@@ -127,6 +135,7 @@ class Product extends React.Component {
           <div className={`row justify-content-between`}>
             <button
               className={`${style["btn_buy"]} btn btn-sm btn-primary`}
+              id="modalBtn"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#confirmationModal"
@@ -204,7 +213,11 @@ class Product extends React.Component {
                 </div>
               ) : (
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-primary confirm">
+                  <button
+                    type="button"
+                    className="btn btn-primary confirm"
+                    data-bs-dismiss="modal"
+                  >
                     OK
                   </button>
                 </div>

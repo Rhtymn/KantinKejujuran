@@ -38,11 +38,34 @@ class Form extends React.Component {
     }
 
     try {
+      // reduce balance
+      const reducedBalance = +this.props.balance - +this.state.productPrice;
+      if (reducedBalance < 0) {
+        // canteen balance not enough
+        this.setState({
+          alert: {
+            isAlert: true,
+            message: "Canteen Balance not enough",
+            type: "alert-warning",
+          },
+        });
+        return;
+      }
+
+      // add new product to database
       await axios.post("http://localhost:5000/products", {
         name: this.state.productName,
         price: +this.state.productPrice,
         description: this.state.productDesc,
       });
+
+      // update canteen balance to database
+      await axios.patch("http://localhost:5000/canteen-balance/1", {
+        balance: reducedBalance,
+      });
+
+      // re-fetch canteen balance from database
+      this.props.getBalance();
 
       // alert success add a product
       this.setState({
