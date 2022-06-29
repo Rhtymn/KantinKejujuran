@@ -4,13 +4,27 @@ import React from "react";
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activeNav: "store" };
+    this.state = { activeNav: null };
   }
+
+  componentDidMount() {
+    const path = window.location.pathname.slice(1);
+    const idx = path.indexOf("/");
+
+    if (idx < 0) {
+      this.setState({ activeNav: path });
+    } else {
+      this.setState({ activeNav: path.slice(0, idx) });
+    }
+  }
+
   render() {
     const activeNavHandler = (e) => {
       const newActiveNav = e.target.closest("a").classList[0];
       if (newActiveNav === "store") this.setState({ activeNav: "store" });
-      if (newActiveNav === "sellForm") this.setState({ activeNav: "sellForm" });
+      if (newActiveNav === "sell-form")
+        this.setState({ activeNav: "sell-form" });
+      if (newActiveNav === "user") this.setState({ activeNav: "user" });
     };
 
     return (
@@ -35,12 +49,24 @@ class Sidebar extends React.Component {
 
             <li
               className={`${style.navItem} ${
-                this.state.activeNav === "sellForm" ? style.active : ""
+                this.state.activeNav === "sell-form" ? style.active : ""
               }`}
             >
               <Link to="/sell-form" className="sellForm">
                 <i className="sellForm fs-4 fa-solid fa-circle-plus"></i>
                 <span className="ms-3 d-none d-sm-inline">Sell Item</span>
+              </Link>
+            </li>
+
+            <li
+              className={`${style.navItem} ${style.user} ${
+                this.state.activeNav === "user" ? style.active : ""
+              }`}
+            >
+              <Link to="/user/sign-up" className="user">
+                <button className={`${style.btnSignUp}`}>
+                  <i className="fa-solid fa-user-large"></i>
+                </button>
               </Link>
             </li>
           </ul>

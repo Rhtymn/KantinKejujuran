@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Store from "./pages/Store/Store";
 import SellForm from "./pages/SellForm/SellForm";
-import CanteenBalance from "./components/CanteenBalance/CanteenBalance";
+import SignForm from "./pages/SignForm/SignForm";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -43,6 +43,7 @@ class App extends React.Component {
                   />
                 }
               ></Route>
+              <Route exact path="/user/*" element={<SignForm />}></Route>
               <Route
                 path="*"
                 element={

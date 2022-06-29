@@ -39,9 +39,18 @@
   color: black;
 }
 
-.navItem.active a {
+.navItem.active a,
+.navItem.navItem.active .btnSignUp {
   background-color: white;
   color: black;
+}
+
+.btnSignUp {
+  border: none;
+  text-decoration: none;
+  background-color: transparent;
+  margin-left: 3px;
+  color: white;
 }
 
 @media (max-width: 768px) {
@@ -54,6 +63,7 @@
     width: 50px;
   }
 }
+
 /* .sidebar {
   position: fixed;
   z-index: 1;
