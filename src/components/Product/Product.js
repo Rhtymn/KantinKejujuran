@@ -1,8 +1,10 @@
 import React from "react";
 import style from "./Product.module.css";
 import TimeAgo from "javascript-time-ago";
+import ConfirmationModal from "./ConfirmationModal";
 import id from "../../../node_modules/javascript-time-ago/locale/id.json";
 import axios from "axios";
+import LoginAlertModal from "./LoginAlertModal";
 // SET LOCALE ID TimeAgo
 TimeAgo.addLocale(id);
 const timeAgo = new TimeAgo("id-ID");
@@ -138,7 +140,9 @@ class Product extends React.Component {
               id="modalBtn"
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#confirmationModal"
+              data-bs-target={
+                this.props.user ? "#confirmationModal" : "#loginAlertModal"
+              }
             >
               {this.props.attribute.price}
             </button>
@@ -146,85 +150,18 @@ class Product extends React.Component {
           </div>
         </div>
 
-        <div
-          className="modal fade overlay"
-          id="confirmationModal"
-          tabIndex="-1"
-          aria-labelledby="confirmationModal"
-          aria-hidden="true"
-          onClick={this.reloadHandler}
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Confirmation
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body p-0">
-                {this.state.alert.isAlert ? (
-                  <div
-                    className={`alert ${this.state.alert.type} m-0`}
-                    role="alert"
-                  >
-                    {this.state.alert.message}
-                  </div>
-                ) : null}
-                {!this.state.isPurchased ? (
-                  <form>
-                    <div className={`${style["input_container"]}`}>
-                      <label htmlFor="pprice" className="text-black">
-                        How much will you pay ?
-                      </label>
-                      <input
-                        type="text"
-                        id="pprice"
-                        value={this.state.userPay}
-                        onChange={this.userPayChangeHandler}
-                        required
-                        className="mt-2"
-                      ></input>
-                    </div>
-                  </form>
-                ) : null}
-              </div>
-              {!this.state.isPurchased ? (
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={this.productBuyHandler}
-                    type="button"
-                    className="btn btn-primary"
-                  >
-                    Buy
-                  </button>
-                </div>
-              ) : (
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary confirm"
-                    data-bs-dismiss="modal"
-                  >
-                    OK
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        {this.props.user ? (
+          <ConfirmationModal
+            reloadHandler={this.reloadHandler}
+            alert={this.state.alert}
+            isPurchased={this.state.isPurchased}
+            userPay={this.state.userPay}
+            userPayChangeHandler={this.userPayChangeHandler}
+            productBuyHandler={this.productBuyHandler}
+          />
+        ) : (
+          <LoginAlertModal />
+        )}
       </>
     );
   }

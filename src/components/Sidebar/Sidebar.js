@@ -5,6 +5,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { activeNav: null };
+    this.activeNavHandler = this.activeNavHandler.bind(this);
   }
 
   componentDidMount() {
@@ -18,15 +19,14 @@ class Sidebar extends React.Component {
     }
   }
 
-  render() {
-    const activeNavHandler = (e) => {
-      const newActiveNav = e.target.closest("a").classList[0];
-      if (newActiveNav === "store") this.setState({ activeNav: "store" });
-      if (newActiveNav === "sell-form")
-        this.setState({ activeNav: "sell-form" });
-      if (newActiveNav === "user") this.setState({ activeNav: "user" });
-    };
+  activeNavHandler(e) {
+    const newActiveNav = e.target.closest("a").classList[0];
+    if (newActiveNav === "store") this.setState({ activeNav: "store" });
+    if (newActiveNav === "sell-form") this.setState({ activeNav: "sell-form" });
+    if (newActiveNav === "user") this.setState({ activeNav: "user" });
+  }
 
+  render() {
     return (
       <div
         className={`${style.sidebar} bg-dark col-md-3 col-xl-2 col-2 w-auto p-0`}
@@ -35,7 +35,7 @@ class Sidebar extends React.Component {
           <p className="mb-4">
             <span className="d-none d-sm-inline">Kantin Kejujuran</span>
           </p>
-          <ul onClick={activeNavHandler} className={`${style.navList}`}>
+          <ul onClick={this.activeNavHandler} className={`${style.navList}`}>
             <li
               className={`${style.navItem} ${
                 this.state.activeNav === "store" ? style.active : ""
@@ -47,16 +47,18 @@ class Sidebar extends React.Component {
               </Link>
             </li>
 
-            <li
-              className={`${style.navItem} ${
-                this.state.activeNav === "sell-form" ? style.active : ""
-              }`}
-            >
-              <Link to="/sell-form" className="sellForm">
-                <i className="sellForm fs-4 fa-solid fa-circle-plus"></i>
-                <span className="ms-3 d-none d-sm-inline">Sell Item</span>
-              </Link>
-            </li>
+            {this.props.user ? (
+              <li
+                className={`${style.navItem} ${
+                  this.state.activeNav === "sell-form" ? style.active : ""
+                }`}
+              >
+                <Link to="/sell-form" className="sell-form">
+                  <i className="sell-Form fs-4 fa-solid fa-circle-plus"></i>
+                  <span className="ms-3 d-none d-sm-inline">Sell Item</span>
+                </Link>
+              </li>
+            ) : null}
 
             <li
               className={`${style.navItem} ${style.user} ${

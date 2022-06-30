@@ -43,8 +43,16 @@ class SignForm extends React.Component {
           </li>
         </ul>
         <Routes>
-          <Route exact path="/sign-up" element={<SignUp />}></Route>
-          <Route exact path="/sign-in" element={<SignIn />}></Route>
+          <Route
+            exact
+            path="/sign-up"
+            element={<SignUp onUpdateUser={this.props.onUpdateUser} />}
+          ></Route>
+          <Route
+            exact
+            path="/sign-in"
+            element={<SignIn onUpdateUser={this.props.onUpdateUser} />}
+          ></Route>
         </Routes>
       </div>
     );

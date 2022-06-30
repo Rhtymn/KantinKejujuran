@@ -111,7 +111,9 @@ class Products extends React.Component {
 
     return (
       <div
-        className={`${style.products} col py-3 text-center mt-5 d-flex flex-column align-items-center`}
+        className={`${style.products} col py-3 text-center ${
+          this.props.user ? "mt-5" : null
+        } d-flex flex-column align-items-center`}
       >
         <h1 className="">Selled Product</h1>
         <Filter
@@ -125,6 +127,7 @@ class Products extends React.Component {
         >
           {this.state.products.slice(minimumIdx, maximumIdx).map((product) => (
             <Product
+              user={this.props.user}
               attribute={product}
               key={product.id}
               balance={this.props.balance}

@@ -8,12 +8,18 @@ import axios from "axios";
 
 /**
  * TODO
- * Fix buy product bug: move modal to store component/using window.reload
+ * 1.Sidebar bug after login
+ * 2.Log out button
+ * 3.Upload image product fiture
+ * 4.Add balance without buy product
+ * 5.Withdraw without add product
+ * 6.Refactoring code
  */
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { canteenBalance: null };
+    this.state = { canteenBalance: null, isLogin: false, user: null };
+    this.updateUser = this.updateUser.bind(this);
   }
 
   componentDidMount() {
@@ -26,12 +32,16 @@ class App extends React.Component {
     this.setState({ canteenBalance: balance });
   }
 
+  updateUser(user) {
+    this.setState({ user: user });
+  }
+
   render() {
     return (
       <Router>
         <div className="App container-fluid">
           <div className="row flex-nowrap">
-            <Sidebar />
+            <Sidebar user={this.state.user} />
             <Routes>
               <Route
                 exact
@@ -43,11 +53,16 @@ class App extends React.Component {
                   />
                 }
               ></Route>
-              <Route exact path="/user/*" element={<SignForm />}></Route>
+              <Route
+                exact
+                path="/user/*"
+                element={<SignForm onUpdateUser={this.updateUser} />}
+              ></Route>
               <Route
                 path="*"
                 element={
                   <Store
+                    user={this.state.user}
                     balance={this.state.canteenBalance}
                     getBalance={this.getCanteenBalance.bind(this)}
                   />

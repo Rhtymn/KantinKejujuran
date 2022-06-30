@@ -8,8 +8,11 @@ class Store extends React.Component {
   render() {
     return (
       <>
-        <CanteenBalance balance={this.props.balance} />
+        {this.props.user ? (
+          <CanteenBalance balance={this.props.balance} />
+        ) : null}
         <Products
+          user={this.props.user}
           balance={this.props.balance}
           getBalance={this.props.getBalance}
         />

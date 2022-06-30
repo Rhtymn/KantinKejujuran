@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 class SignUp extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class SignUp extends React.Component {
     if (elementID === "password") this.setState({ password: value });
   }
 
-  registerFormHandler(e) {
+  async registerFormHandler(e) {
     e.preventDefault();
     let message = "";
     // check studentID is 5 digits (?)
@@ -77,6 +78,22 @@ class SignUp extends React.Component {
       });
       return;
     }
+
+    // studentID & password valid, send to database
+    await axios.post("http://localhost:5000/users", {
+      studentId: this.state.studentID,
+      password: this.state.password,
+    });
+
+    this.setState({
+      studentID: "",
+      password: "",
+      alert: {
+        isAlert: true,
+        message: "Register Success, Please login to continue",
+        type: "alert-success",
+      },
+    });
   }
 
   render() {
@@ -129,5 +146,4 @@ class SignUp extends React.Component {
     );
   }
 }
-
 export default SignUp;
