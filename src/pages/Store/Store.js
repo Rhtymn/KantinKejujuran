@@ -7,16 +7,19 @@ class Store extends React.Component {
   }
   render() {
     return (
-      <>
+      <div className="col">
         {this.props.user ? (
-          <CanteenBalance balance={this.props.balance} />
+          <CanteenBalance
+            balance={this.props.balance}
+            getBalance={this.props.getBalance}
+          />
         ) : null}
         <Products
           user={this.props.user}
           balance={this.props.balance}
           getBalance={this.props.getBalance}
         />
-      </>
+      </div>
     );
   }
 }

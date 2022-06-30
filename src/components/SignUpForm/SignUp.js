@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import Input from "./Input";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -9,15 +10,34 @@ class SignUp extends React.Component {
       password: "",
       alert: { isAlert: false, message: "", type: "" },
     };
-    this.inputChangeHandle = this.inputChangeHandle.bind(this);
+    this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.registerFormHandler = this.registerFormHandler.bind(this);
+    this.alert = this.alert.bind(this);
+    this.isValidStudentID = this.isValidStudentID.bind(this);
   }
 
-  inputChangeHandle(e) {
+  inputChangeHandler(e) {
     const elementID = e.target.id;
     const value = e.target.value;
     if (elementID === "studentID") this.setState({ studentID: value });
     if (elementID === "password") this.setState({ password: value });
+  }
+
+  alert(message, alertType) {
+    this.setState({
+      studentID: "",
+      password: "",
+      alert: { isAlert: true, message: message, type: alertType },
+    });
+  }
+
+  isValidStudentID(studentID) {
+    const resultID = +studentID.substring(3);
+    const sumThreeDigits = studentID
+      .substring(0, 3)
+      .split("")
+      .reduce((prev, curr) => prev + +curr, 0);
+    return resultID === sumThreeDigits;
   }
 
   async registerFormHandler(e) {
@@ -46,36 +66,13 @@ class SignUp extends React.Component {
 
     // send alert if studentID input not valid
     if (message != "") {
-      this.setState({
-        studentID: "",
-        password: "",
-        alert: {
-          isAlert: true,
-          message: message,
-          type: "alert-danger",
-        },
-      });
+      this.alert(message, "alert-danger");
       return;
     }
 
-    const studentID = this.state.studentID;
-    const resultID = +studentID.substring(3);
-    const sumThreeDigits = studentID
-      .substring(0, 3)
-      .split("")
-      .reduce((prev, curr) => prev + +curr, 0);
-
-    // studentID not valid
-    if (sumThreeDigits != resultID) {
-      this.setState({
-        studentID: "",
-        password: "",
-        alert: {
-          isAlert: true,
-          message: "student ID are not valid!",
-          type: "alert-danger",
-        },
-      });
+    // check is student ID valid (?)
+    if (!this.isValidStudentID(this.state.studentID)) {
+      this.alert("student ID is not valid!", "alert-danger");
       return;
     }
 
@@ -85,15 +82,7 @@ class SignUp extends React.Component {
       password: this.state.password,
     });
 
-    this.setState({
-      studentID: "",
-      password: "",
-      alert: {
-        isAlert: true,
-        message: "Register Success, Please login to continue",
-        type: "alert-success",
-      },
-    });
+    this.alert("Register Success, Please login to continue", "alert-success");
   }
 
   render() {
@@ -108,36 +97,24 @@ class SignUp extends React.Component {
           </div>
         ) : null}
         <form className="text-black" onSubmit={this.registerFormHandler}>
-          <div className="form-group mb-2">
-            <label>Student ID</label>
-            <input
-              id="studentID"
-              type="text"
-              className="form-control"
-              placeholder="Enter student ID"
-              value={this.state.studentID}
-              onChange={this.inputChangeHandle}
-              required
-            ></input>
-            <small className="form-text text-muted">
-              student ID consist of a 5 digits number from 0-9
-            </small>
-          </div>
-          <div className="form-group mb-2">
-            <label>Password</label>
-            <input
-              id="password"
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.inputChangeHandle}
-              required
-            ></input>
-            <small className="form-text text-muted">
-              password length between 8-16 characters
-            </small>
-          </div>
+          <Input
+            id="studentID"
+            label="Student ID"
+            value={this.state.studentID}
+            onInputChange={this.inputChangeHandler}
+            placeholder="Enter student ID"
+            hint="student ID consist of a 5 digits number from 0-9"
+            type="text"
+          />
+          <Input
+            id="password"
+            label="Password"
+            value={this.state.password}
+            onInputChange={this.inputChangeHandler}
+            hint="password length between 8-16 characters"
+            placeholder="Password"
+            type="password"
+          />
           <button type="submit" className="btn btn-primary">
             Register
           </button>

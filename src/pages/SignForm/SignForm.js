@@ -18,7 +18,7 @@ class SignForm extends React.Component {
   render() {
     return (
       <div className="col">
-        <ul className="nav nav-tabs mt-2">
+        <ul className="nav nav-tabs mt-2 mb-2">
           <li className="nav-item">
             <Link
               to="/user/sign-up"

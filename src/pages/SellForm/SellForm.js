@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "../../components/Form/Form";
+import ProductForm from "../../components/ProductForm/ProductForm";
 class SellForm extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +8,10 @@ class SellForm extends React.Component {
   render() {
     return (
       <div className={`col col-md-6 col-lg-4 mx-auto text-center py-3`}>
-        <Form balance={this.props.balance} getBalance={this.props.getBalance} />
+        <ProductForm
+          balance={this.props.balance}
+          getBalance={this.props.getBalance}
+        />
       </div>
     );
   }

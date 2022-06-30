@@ -9,11 +9,11 @@ import axios from "axios";
 /**
  * TODO
  * 1.Sidebar bug after login
- * 2.Log out button
- * 3.Upload image product fiture
- * 4.Add balance without buy product
- * 5.Withdraw without add product
- * 6.Refactoring code
+ * 2.Log out button (DONE)
+ * 3.Upload product image fiture
+ * 4.Add balance without buy product (DONE)
+ * 5.Withdraw without add product (DONE)
+ * 6.Refactoring code (DONE)
  */
 class App extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class App extends React.Component {
       <Router>
         <div className="App container-fluid">
           <div className="row flex-nowrap">
-            <Sidebar user={this.state.user} />
+            <Sidebar user={this.state.user} updateUser={this.updateUser} />
             <Routes>
               <Route
                 exact

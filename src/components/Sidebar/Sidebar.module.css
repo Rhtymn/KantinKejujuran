@@ -53,6 +53,36 @@
   color: white;
 }
 
+.user_logout_container {
+  position: absolute;
+  left: 0;
+  bottom: 70px;
+}
+
+.user_logout_container button {
+  width: 80px;
+  transform: rotate(90deg) translateY(40%);
+  border: none;
+  background-color: red;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+}
+
+.user_logout_container button:hover {
+}
+
+@media (min-width: 768px) {
+  .user_logout_container {
+    top: 10px;
+    left: 160px;
+  }
+  .user_logout_container button {
+    position: absolute;
+    transform: translate(0);
+  }
+}
+
 @media (max-width: 768px) {
   .navList {
     position: relative;

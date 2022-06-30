@@ -111,9 +111,7 @@ class Products extends React.Component {
 
     return (
       <div
-        className={`${style.products} col py-3 text-center ${
-          this.props.user ? "mt-5" : null
-        } d-flex flex-column align-items-center`}
+        className={`${style.products} py-3 text-center d-flex flex-column align-items-center`}
       >
         <h1 className="">Selled Product</h1>
         <Filter

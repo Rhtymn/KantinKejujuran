@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
+import Input from "../SignUpForm/Input";
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class SignIn extends React.Component {
     };
     this.inputChangeHandle = this.inputChangeHandle.bind(this);
     this.loginHandler = this.loginHandler.bind(this);
+    this.alert = this.alert.bind(this);
   }
 
   inputChangeHandle(e) {
@@ -19,6 +21,17 @@ class SignIn extends React.Component {
     const value = e.target.value;
     if (elementID === "studentID") this.setState({ studentID: value });
     if (elementID === "password") this.setState({ password: value });
+  }
+
+  alert(isValid, message, alertType) {
+    this.setState({
+      isValid: isValid,
+      modal: {
+        showModal: true,
+        message: message,
+        alertType: alertType,
+      },
+    });
   }
 
   async loginHandler(e) {
@@ -41,25 +54,10 @@ class SignIn extends React.Component {
     }
 
     if (isValid) {
-      console.log(this.props);
+      this.alert(true, "Login success", "alert-success");
       this.props.onUpdateUser(users[validUserIdx]);
-      this.setState({
-        isValid: true,
-        modal: {
-          showModal: true,
-          message: "Login success",
-          alertType: "alert-success",
-        },
-      });
     } else {
-      this.setState({
-        modal: {
-          isValid: false,
-          showModal: true,
-          message: "Invalid student ID or password",
-          alertType: "alert-danger",
-        },
-      });
+      this.alert(false, "Invalid student ID or password", "alert-danger");
     }
   }
 
@@ -67,28 +65,22 @@ class SignIn extends React.Component {
     return (
       <>
         <form className="text-black" onSubmit={this.loginHandler}>
-          <div className="form-group mb-2">
-            <label>Student ID</label>
-            <input
-              id="studentID"
-              type="text"
-              className="form-control"
-              placeholder="Enter student ID"
-              value={this.state.studentID}
-              onChange={this.inputChangeHandle}
-            ></input>
-          </div>
-          <div className="form-group mb-2">
-            <label>Password</label>
-            <input
-              id="password"
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.inputChangeHandle}
-            ></input>
-          </div>
+          <Input
+            label="Student ID"
+            id="studentID"
+            type="text"
+            placeholder="Enter student ID"
+            value={this.state.studentID}
+            onInputChange={this.inputChangeHandle}
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            placeholder="Password"
+            value={this.state.password}
+            onInputChange={this.inputChangeHandle}
+          />
           <button type="submit" className="btn btn-primary">
             Login
           </button>
@@ -111,19 +103,6 @@ class SignIn extends React.Component {
                 <h5 className="modal-title" id="exampleModalLabel">
                   Login Information
                 </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() =>
-                    this.setState({
-                      studentID: "",
-                      password: "",
-                      modal: { showModal: false },
-                    })
-                  }
-                ></button>
               </div>
               <div className="modal-body">
                 <div
