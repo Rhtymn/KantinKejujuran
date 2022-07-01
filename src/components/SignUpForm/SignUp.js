@@ -14,6 +14,7 @@ class SignUp extends React.Component {
     this.registerFormHandler = this.registerFormHandler.bind(this);
     this.alert = this.alert.bind(this);
     this.isValidStudentID = this.isValidStudentID.bind(this);
+    this.removeAlert = this.removeAlert.bind(this);
   }
 
   inputChangeHandler(e) {
@@ -29,6 +30,10 @@ class SignUp extends React.Component {
       password: "",
       alert: { isAlert: true, message: message, type: alertType },
     });
+  }
+
+  removeAlert() {
+    this.setState({ alert: { isAlert: false, message: "", type: "" } });
   }
 
   isValidStudentID(studentID) {
@@ -105,6 +110,7 @@ class SignUp extends React.Component {
             placeholder="Enter student ID"
             hint="student ID consist of a 5 digits number from 0-9"
             type="text"
+            onRemoveAlert={this.removeAlert}
           />
           <Input
             id="password"
@@ -114,6 +120,7 @@ class SignUp extends React.Component {
             hint="password length between 8-16 characters"
             placeholder="Password"
             type="password"
+            onRemoveAlert={this.removeAlert}
           />
           <button type="submit" className="btn btn-primary">
             Register

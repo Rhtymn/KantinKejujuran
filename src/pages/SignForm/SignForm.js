@@ -51,7 +51,12 @@ class SignForm extends React.Component {
           <Route
             exact
             path="/sign-in"
-            element={<SignIn onUpdateUser={this.props.onUpdateUser} />}
+            element={
+              <SignIn
+                onUpdateUser={this.props.onUpdateUser}
+                setActiveNav={this.props.setActiveNav}
+              />
+            }
           ></Route>
         </Routes>
       </div>

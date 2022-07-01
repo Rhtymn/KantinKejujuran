@@ -11,6 +11,7 @@ class SellForm extends React.Component {
         <ProductForm
           balance={this.props.balance}
           getBalance={this.props.getBalance}
+          setActiveNav={this.props.setActiveNav}
         />
       </div>
     );

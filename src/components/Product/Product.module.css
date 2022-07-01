@@ -3,10 +3,11 @@
 }
 
 .product .product_image {
-  height: 4rem;
-  width: 4rem;
-  background-color: brown;
+  overflow: hidden;
+  height: 5rem;
+  width: 5rem;
   border-radius: 5px;
+  padding: 0;
 }
 
 .product .product_info {

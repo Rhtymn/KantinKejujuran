@@ -12,6 +12,7 @@ class Input extends React.Component {
           id={this.props.id}
           value={this.props.value}
           onChange={this.props.onInputChange}
+          onFocus={() => this.props.onRemoveAlert()}
           required
         ></input>
       </div>

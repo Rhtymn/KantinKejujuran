@@ -5,6 +5,8 @@ import ConfirmationModal from "./ConfirmationModal";
 import id from "../../../node_modules/javascript-time-ago/locale/id.json";
 import axios from "axios";
 import LoginAlertModal from "./LoginAlertModal";
+import bengbeng from "../../assets/img/beng-beng.jpg";
+
 // SET LOCALE ID TimeAgo
 TimeAgo.addLocale(id);
 const timeAgo = new TimeAgo("id-ID");
@@ -117,8 +119,8 @@ class Product extends React.Component {
       <>
         <div className={`${style.product} bg-dark py-3 px-md-3`}>
           <div className="row mb-2">
-            <div className={`${style["product_image"]} col-auto`}>
-              <img className="img-fluid"></img>
+            <div className={`${style["product_image"]}`}>
+              <img className="img-fluid" src={bengbeng}></img>
             </div>
             <div
               className={`${style["product_info"]} d-flex flex-column ms-2 col-7 col-md-8 col-lg-7 p-0 ps-1`}

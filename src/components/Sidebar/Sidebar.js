@@ -10,27 +10,13 @@ class Sidebar extends React.Component {
     super(props);
     this.state = { activeNav: null, sm: true };
     this.activeNavHandler = this.activeNavHandler.bind(this);
-    this.setActiveNav = this.setActiveNav.bind(this);
   }
 
   componentDidMount() {
-    // set activeNav
-    this.setActiveNav();
-
+    this.props.setActiveNav();
     // callback to change logout button view
     fn = this.logoutButtonView.bind(this);
     window.addEventListener("resize", fn);
-  }
-
-  setActiveNav() {
-    // find current path & set activeNav
-    const path = window.location.pathname.slice(1);
-    const idx = path.indexOf("/");
-    if (idx < 0) {
-      this.setState({ activeNav: path });
-    } else {
-      this.setState({ activeNav: path.slice(0, idx) });
-    }
   }
 
   componentWillUnmount() {
@@ -38,10 +24,11 @@ class Sidebar extends React.Component {
   }
 
   activeNavHandler(e) {
-    const newActiveNav = e.target.closest("a").classList[0];
-    if (newActiveNav === "store") this.setState({ activeNav: "store" });
-    if (newActiveNav === "sell-form") this.setState({ activeNav: "sell-form" });
-    if (newActiveNav === "user") this.setState({ activeNav: "user" });
+    // const newActiveNav = e.target.closest("a").classList[0];
+    // if (newActiveNav === "store") this.props.setActiveNav();
+    // if (newActiveNav === "sell-form") this.props.setActiveNav();
+    // if (newActiveNav === "user") this.props.setActiveNav();
+    this.props.setActiveNav();
   }
 
   logoutButtonView(e) {
@@ -61,7 +48,7 @@ class Sidebar extends React.Component {
           <ul onClick={this.activeNavHandler} className={`${style.navList}`}>
             <li
               className={`${style.navItem} ${
-                this.state.activeNav === "store" ? style.active : ""
+                this.props.activeNav === "store" ? style.active : ""
               }`}
             >
               <Link to="/store" className={`store`}>
@@ -73,11 +60,11 @@ class Sidebar extends React.Component {
             {this.props.user ? (
               <li
                 className={`${style.navItem} ${
-                  this.state.activeNav === "sell-form" ? style.active : ""
+                  this.props.activeNav === "sell-form" ? style.active : ""
                 }`}
               >
                 <Link to="/sell-form" className="sell-form">
-                  <i className="sell-Form fs-4 fa-solid fa-circle-plus"></i>
+                  <i className="sell-form fs-4 fa-solid fa-circle-plus"></i>
                   <span className="ms-3 ps-1 d-none d-sm-inline">
                     Sell Item
                   </span>
@@ -88,7 +75,7 @@ class Sidebar extends React.Component {
             {!this.props.user ? (
               <li
                 className={`${style.navItem} ${style.user} ${
-                  this.state.activeNav === "user" ? style.active : ""
+                  this.props.activeNav === "user" ? style.active : ""
                 }`}
               >
                 <Link
@@ -104,11 +91,18 @@ class Sidebar extends React.Component {
           {(this.props.user && this.state.sm) ||
           (this.props.user &&
             !this.state.sm &&
-            this.state.activeNav === "store") ? (
+            this.props.activeNav === "store") ? (
             <div className={`${style.user_logout_container} text-center`}>
-              <button onClick={() => this.props.updateUser(null)}>
-                Log Out
-              </button>
+              <Link to="/store">
+                <button
+                  onClick={() => {
+                    this.props.updateUser(null);
+                    this.props.setActiveNav("store");
+                  }}
+                >
+                  Log Out
+                </button>
+              </Link>
             </div>
           ) : null}
         </div>

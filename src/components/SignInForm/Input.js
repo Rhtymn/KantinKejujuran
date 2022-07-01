@@ -14,7 +14,6 @@ class Input extends React.Component {
           placeholder={this.props.placeholder}
           value={this.props.value}
           onChange={this.props.onInputChange}
-          onInput={() => this.props.onRemoveAlert()}
           required
         ></input>
         <small className="form-text text-muted">{this.props.hint}</small>

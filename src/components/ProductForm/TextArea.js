@@ -16,6 +16,7 @@ class TextArea extends React.Component {
           rows="3"
           value={this.props.value}
           onChange={this.props.onInputChange}
+          onFocus={() => this.props.onRemoveAlert()}
           required
         ></textarea>
       </div>

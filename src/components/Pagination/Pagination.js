@@ -31,12 +31,20 @@ class Pagination extends React.Component {
 
     return (
       <div className={`${style.pagination} d-flex align-items-center gap-4`}>
-        <button onClick={prevPageHandler}>
-          <i className="fa-solid fa-caret-left"></i>
+        <button
+          onClick={prevPageHandler}
+          style={this.state.page === 1 ? { color: "gray" } : null}
+        >
+          <i className={`fa-solid fa-caret-left `}></i>
         </button>
         <span>{this.state.page}</span>
-        <button onClick={nextPageHandler}>
-          <i className="fa-solid fa-caret-right w-auto"></i>
+        <button
+          onClick={nextPageHandler}
+          style={
+            this.state.page === this.props.maxPage ? { color: "gray" } : null
+          }
+        >
+          <i className={`fa-solid fa-caret-right w-auto`}></i>
         </button>
       </div>
     );

@@ -111,9 +111,8 @@ class Products extends React.Component {
 
     return (
       <div
-        className={`${style.products} py-3 text-center d-flex flex-column align-items-center`}
+        className={`${style.products} text-center d-flex flex-column align-items-center py-2`}
       >
-        <h1 className="">Selled Product</h1>
         <Filter
           filterBy={this.state.filterBy}
           onFilterChange={this.filterChangeHandler}
@@ -121,18 +120,26 @@ class Products extends React.Component {
           sortType={this.state.ascending}
         />
         <div
-          className={`${style["product_container"]} mb-3 mt-2 container-fluid bg-dark row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
+          className={`${style["product_container"]} mt-2 container-fluid ${
+            this.state.products.length ? "bg-dark" : ""
+          } row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
         >
-          {this.state.products.slice(minimumIdx, maximumIdx).map((product) => (
-            <Product
-              user={this.props.user}
-              attribute={product}
-              key={product.id}
-              balance={this.props.balance}
-              getBalance={this.props.getBalance}
-              getProducts={this.getProducts.bind(this)}
-            />
-          ))}
+          {this.state.products.length ? (
+            this.state.products
+              .slice(minimumIdx, maximumIdx)
+              .map((product) => (
+                <Product
+                  user={this.props.user}
+                  attribute={product}
+                  key={product.id}
+                  balance={this.props.balance}
+                  getBalance={this.props.getBalance}
+                  getProducts={this.getProducts.bind(this)}
+                />
+              ))
+          ) : (
+            <h4>Oops, nothing product here!</h4>
+          )}
         </div>
         <Pagination onPageChange={this.pageChangeHandler} maxPage={maxPage} />
       </div>

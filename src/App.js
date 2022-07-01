@@ -8,7 +8,7 @@ import axios from "axios";
 
 /**
  * TODO
- * 1.Sidebar bug after login
+ * 1.Sidebar bug after login (DONE)
  * 2.Log out button (DONE)
  * 3.Upload product image fiture
  * 4.Add balance without buy product (DONE)
@@ -18,12 +18,34 @@ import axios from "axios";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { canteenBalance: null, isLogin: false, user: null };
+    this.state = {
+      canteenBalance: null,
+      isLogin: false,
+      user: null,
+      activeNav: null,
+    };
     this.updateUser = this.updateUser.bind(this);
+    this.setActiveNav = this.setActiveNav.bind(this);
   }
 
   componentDidMount() {
     this.getCanteenBalance();
+    this.setActiveNav();
+  }
+
+  setActiveNav(newActiveNav) {
+    if (newActiveNav) {
+      this.setState({ activeNav: newActiveNav });
+      return;
+    }
+    // find current path & set activeNav
+    const path = window.location.pathname.slice(1);
+    const idx = path.indexOf("/");
+    if (idx < 0) {
+      this.setState({ activeNav: path });
+    } else {
+      this.setState({ activeNav: path.slice(0, idx) });
+    }
   }
 
   async getCanteenBalance() {
@@ -41,7 +63,12 @@ class App extends React.Component {
       <Router>
         <div className="App container-fluid">
           <div className="row flex-nowrap">
-            <Sidebar user={this.state.user} updateUser={this.updateUser} />
+            <Sidebar
+              user={this.state.user}
+              updateUser={this.updateUser}
+              activeNav={this.state.activeNav}
+              setActiveNav={this.setActiveNav}
+            />
             <Routes>
               <Route
                 exact
@@ -50,13 +77,19 @@ class App extends React.Component {
                   <SellForm
                     balance={this.state.canteenBalance}
                     getBalance={this.getCanteenBalance.bind(this)}
+                    setActiveNav={this.setActiveNav}
                   />
                 }
               ></Route>
               <Route
                 exact
                 path="/user/*"
-                element={<SignForm onUpdateUser={this.updateUser} />}
+                element={
+                  <SignForm
+                    onUpdateUser={this.updateUser}
+                    setActiveNav={this.setActiveNav}
+                  />
+                }
               ></Route>
               <Route
                 path="*"

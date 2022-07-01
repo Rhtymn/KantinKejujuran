@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import Input from "../SignUpForm/Input";
+import Input from "./Input";
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +56,7 @@ class SignIn extends React.Component {
     if (isValid) {
       this.alert(true, "Login success", "alert-success");
       this.props.onUpdateUser(users[validUserIdx]);
+      this.props.setActiveNav("store");
     } else {
       this.alert(false, "Invalid student ID or password", "alert-danger");
     }
@@ -114,13 +115,13 @@ class SignIn extends React.Component {
               </div>
               <div className="modal-footer">
                 <Link
-                  onClick={() =>
+                  onClick={() => {
                     this.setState({
                       studentID: "",
                       password: "",
                       modal: { showModal: false },
-                    })
-                  }
+                    });
+                  }}
                   to={this.state.isValid ? "/store" : "/user/sign-in"}
                 >
                   <button

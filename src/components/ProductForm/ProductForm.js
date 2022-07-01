@@ -14,6 +14,7 @@ class ProductForm extends React.Component {
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.saveProduct = this.saveProduct.bind(this);
     this.alert = this.alert.bind(this);
+    this.removeAlert = this.removeAlert.bind(this);
   }
 
   inputChangeHandler(e) {
@@ -27,6 +28,10 @@ class ProductForm extends React.Component {
     this.setState({
       alert: { isAlert: true, message: message, type: alertType },
     });
+  }
+
+  removeAlert() {
+    this.setState({ alert: { isAlert: false, message: "", type: "" } });
   }
 
   async saveProduct(e) {
@@ -66,6 +71,8 @@ class ProductForm extends React.Component {
 
       // reset input element
       this.setState({ pName: "", pPrice: "", pDesc: "" });
+
+      this.props.setActiveNav();
     } catch (error) {
       // alert failed add a product
       this.alert("Failed adding new product", "alert-danger");
@@ -90,18 +97,21 @@ class ProductForm extends React.Component {
             label="Product name:"
             value={this.state.pName}
             onInputChange={this.inputChangeHandler}
+            onRemoveAlert={this.removeAlert}
           />
           <Input
             id="pPrice"
             label="Product price:"
             value={this.state.pPrice}
             onInputChange={this.inputChangeHandler}
+            onRemoveAlert={this.removeAlert}
           />
           <TextArea
             id="pDesc"
             label="Product description:"
             value={this.state.pDesc}
             onInputChange={this.inputChangeHandler}
+            onRemoveAlert={this.removeAlert}
           />
           <button type="submit" className="btn btn-primary">
             Submit
