@@ -1,11 +1,12 @@
 import axios from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
 import Input from "./Input";
+import Modal from "./Modal";
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOnLoginProgress: false,
       isValid: false,
       studentID: "",
       password: "",
@@ -14,6 +15,7 @@ class SignIn extends React.Component {
     this.inputChangeHandle = this.inputChangeHandle.bind(this);
     this.loginHandler = this.loginHandler.bind(this);
     this.alert = this.alert.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   inputChangeHandle(e) {
@@ -25,6 +27,7 @@ class SignIn extends React.Component {
 
   alert(isValid, message, alertType) {
     this.setState({
+      isOnLoginProgress: false,
       isValid: isValid,
       modal: {
         showModal: true,
@@ -62,6 +65,10 @@ class SignIn extends React.Component {
     }
   }
 
+  closeModal() {
+    this.setState({ studentID: "", password: "", modal: { showModal: false } });
+  }
+
   render() {
     return (
       <>
@@ -73,6 +80,7 @@ class SignIn extends React.Component {
             placeholder="Enter student ID"
             value={this.state.studentID}
             onInputChange={this.inputChangeHandle}
+            onRemoveSpinner={this.removeSpinner}
           />
           <Input
             label="Password"
@@ -81,61 +89,29 @@ class SignIn extends React.Component {
             placeholder="Password"
             value={this.state.password}
             onInputChange={this.inputChangeHandle}
+            onRemoveSpinner={this.removeSpinner}
           />
-          <button type="submit" className="btn btn-primary">
-            Login
+          <button
+            type="submit"
+            className="btn btn-primary w-25"
+            onClick={() => this.setState({ isOnLoginProgress: true })}
+          >
+            {this.state.isOnLoginProgress ? (
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
-        <div
-          className={`modal fade ${this.state.modal.showModal ? "show" : ""}`}
-          style={
-            this.state.modal.showModal
-              ? { display: "block" }
-              : { display: "none" }
-          }
-          id="loginModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Login Information
-                </h5>
-              </div>
-              <div className="modal-body">
-                <div
-                  className={`alert ${this.state.modal.alertType} m-0`}
-                  role="alert"
-                >
-                  {this.state.modal.message}
-                </div>
-              </div>
-              <div className="modal-footer">
-                <Link
-                  onClick={() => {
-                    this.setState({
-                      studentID: "",
-                      password: "",
-                      modal: { showModal: false },
-                    });
-                  }}
-                  to={this.state.isValid ? "/store" : "/user/sign-in"}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-bs-dismiss="modal"
-                  >
-                    OK
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal
+          showModal={this.state.modal.showModal}
+          message={this.state.modal.message}
+          alertType={this.state.modal.alertType}
+          isValid={this.state.isValid}
+          onCloseModal={this.closeModal}
+        />
       </>
     );
   }

@@ -1,10 +1,12 @@
 import axios from "axios";
 import React from "react";
+import Alert from "../Alert/Alert";
 import Input from "./Input";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOnRegisterProggress: false,
       formActive: "signUp",
       studentID: "",
       password: "",
@@ -26,6 +28,7 @@ class SignUp extends React.Component {
 
   alert(message, alertType) {
     this.setState({
+      isOnRegisterProggress: false,
       studentID: "",
       password: "",
       alert: { isAlert: true, message: message, type: alertType },
@@ -94,12 +97,10 @@ class SignUp extends React.Component {
     return (
       <>
         {this.state.alert.isAlert ? (
-          <div
-            className={`alert ${this.state.alert.type} m-0 mt-2 text-center`}
-            role="alert"
-          >
-            {this.state.alert.message}
-          </div>
+          <Alert
+            alertType={this.state.alert.type}
+            message={this.state.alert.message}
+          />
         ) : null}
         <form className="text-black" onSubmit={this.registerFormHandler}>
           <Input
@@ -122,8 +123,18 @@ class SignUp extends React.Component {
             type="password"
             onRemoveAlert={this.removeAlert}
           />
-          <button type="submit" className="btn btn-primary">
-            Register
+          <button
+            type="submit"
+            className="btn btn-primary w-25"
+            onClick={() => this.setState({ isOnRegisterProggress: true })}
+          >
+            {this.state.isOnRegisterProggress ? (
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
       </>

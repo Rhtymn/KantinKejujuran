@@ -15,6 +15,8 @@ class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOnBuyProgress: false,
+      isImageLoaded: false,
       isPurchased: false,
       userPay: "",
       alert: { isAlert: false, message: "", type: "" },
@@ -22,31 +24,32 @@ class Product extends React.Component {
     this.productBuyHandler = this.productBuyHandler.bind(this);
     this.userPayChangeHandler = this.userPayChangeHandler.bind(this);
     this.reloadHandler = this.reloadHandler.bind(this);
+    this.handleImageLoaded = this.handleImageLoaded.bind(this);
+    this.removeSpinner = this.removeSpinner.bind(this);
+    this.alert = this.alert.bind(this);
+  }
+
+  alert(message, alertType) {
+    this.setState({
+      isOnBuyProgress: false,
+      alert: { isAlert: true, message: message, type: alertType },
+    });
   }
 
   async productBuyHandler() {
     try {
       // user doesn't enter price
       if (this.state.userPay === "") {
-        this.setState({
-          alert: {
-            isAlert: true,
-            message: "Please choose price which you want",
-            type: "alert-danger",
-          },
-        });
+        this.alert("Please choose price which you want", "alert-danger");
         return;
       }
 
       // price input not number
       if (!+this.state.userPay || +this.state.userPay < 0) {
-        this.setState({
-          alert: {
-            isAlert: true,
-            message: "your choosen price must a number & more than 0",
-            type: "alert-danger",
-          },
-        });
+        this.alert(
+          "your choosen price must a number & more than 0",
+          "alert-danger"
+        );
         return;
       }
 
@@ -56,22 +59,16 @@ class Product extends React.Component {
       // set success buy alert
       if (+this.state.userPay >= +this.props.attribute.price) {
         // user honest
-        this.setState({
-          alert: {
-            isAlert: true,
-            message: "Thanks for being honest person! i'm appreciate it!",
-            type: "alert-success",
-          },
-        });
+        this.alert(
+          "Thanks for being honest person! i'm appreciate it!",
+          "alert-success"
+        );
       } else {
         // user lie
-        this.setState({
-          alert: {
-            isAlert: true,
-            message: "I know you're lying! but you can take that product",
-            type: "alert-warning",
-          },
-        });
+        this.alert(
+          "I know you're lying! but you can take that product",
+          "alert-warning"
+        );
       }
       // change isPurchased state & reset input
       this.setState({ isPurchased: true, userPay: "" });
@@ -114,16 +111,39 @@ class Product extends React.Component {
     }
   }
 
+  handleImageLoaded() {
+    this.setState({ isImageLoaded: true });
+  }
+
+  removeSpinner() {
+    this.setState({ isOnBuyProgress: false });
+  }
+
   render() {
     return (
       <>
         <div className={`${style.product} bg-dark py-3 px-md-3`}>
           <div className="row mb-2">
-            <div className={`${style["product_image"]}`}>
+            <div
+              className={`${style["product_image"]} d-flex align-items-center justify-content-center`}
+            >
               <img
-                className="img-fluid"
+                className={`img-fluid ${
+                  !this.state.isImageLoaded ? "d-none" : ""
+                }`}
                 src={this.props.attribute.imgUrl}
+                onLoad={this.handleImageLoaded}
               ></img>
+              {
+                <div
+                  className={`spinner-border spinner-border-sm ${
+                    this.state.isImageLoaded ? "d-none" : ""
+                  }`}
+                  role="status"
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              }
             </div>
             <div
               className={`${style["product_info"]} d-flex flex-column ms-2 col-7 col-md-8 col-lg-7 p-0 ps-1`}
@@ -163,6 +183,8 @@ class Product extends React.Component {
             userPay={this.state.userPay}
             userPayChangeHandler={this.userPayChangeHandler}
             productBuyHandler={this.productBuyHandler}
+            isOnBuyProgress={this.state.isOnBuyProgress}
+            onRemoveSpinner={this.removeSpinner}
           />
         ) : (
           <LoginAlertModal />

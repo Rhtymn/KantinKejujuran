@@ -67,9 +67,15 @@ class ConfirmationModal extends React.Component {
                 <button
                   onClick={this.props.productBuyHandler}
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary w-25"
                 >
-                  Buy
+                  {this.props.isOnBuyProgress ? (
+                    <div class="spinner-border spinner-border-sm" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Buy"
+                  )}
                 </button>
               </div>
             ) : (

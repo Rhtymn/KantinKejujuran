@@ -3,7 +3,8 @@ import axios from "axios";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import ImageDropZone from "../ImageDropZone/ImageDropZone";
-
+import Alert from "../Alert/Alert";
+import ImagePreview from "../ImagePreview/ImagePreview";
 class ProductForm extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +14,7 @@ class ProductForm extends React.Component {
       pDesc: "",
       pImg: "",
       alert: { isAlert: false, message: "", type: "" },
+      isSendData: false,
     };
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.saveProduct = this.saveProduct.bind(this);
@@ -30,12 +32,16 @@ class ProductForm extends React.Component {
 
   alert(message, alertType) {
     this.setState({
+      isSendData: false,
       alert: { isAlert: true, message: message, type: alertType },
     });
   }
 
   removeAlert() {
-    this.setState({ alert: { isAlert: false, message: "", type: "" } });
+    this.setState({
+      isSendData: false,
+      alert: { isAlert: false, message: "", type: "" },
+    });
   }
 
   async saveProduct(e) {
@@ -85,9 +91,16 @@ class ProductForm extends React.Component {
       // alert success add a product
       this.alert("Success adding new product", "alert-success");
 
-      // reset input element
-      this.setState({ pName: "", pPrice: "", pDesc: "", pImg: "" });
+      // reset input element & remove spinner
+      this.setState({
+        pName: "",
+        pPrice: "",
+        pDesc: "",
+        pImg: "",
+        isSendData: false,
+      });
 
+      // re-search active navbar
       this.props.setActiveNav();
     } catch (error) {
       // alert failed add a product
@@ -103,9 +116,10 @@ class ProductForm extends React.Component {
     return (
       <>
         {this.state.alert.isAlert ? (
-          <div className={`alert ${this.state.alert.type}`} role="alert">
-            {this.state.alert.message}
-          </div>
+          <Alert
+            alertType={this.state.alert.type}
+            message={this.state.alert.message}
+          />
         ) : null}
         <form
           className="text-black text-start pt-0"
@@ -134,23 +148,19 @@ class ProductForm extends React.Component {
             onRemoveAlert={this.removeAlert}
           />
           <ImageDropZone onSetImage={this.setImage} />
-          {/* Image Preview */}
-          {this.state.pImg ? (
-            <div className="">
-              <div
-                className="mb-3 border p-1"
-                style={{ width: "100px", height: "100px" }}
-              >
-                <img
-                  className="img-fluid"
-                  src={URL.createObjectURL(this.state.pImg)}
-                ></img>
+          {this.state.pImg ? <ImagePreview img={this.state.pImg} /> : null}
+          <button
+            type="submit"
+            className="btn btn-primary w-25"
+            onClick={() => this.setState({ isSendData: true })}
+          >
+            {this.state.isSendData ? (
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
               </div>
-            </div>
-          ) : null}
-          {/* End of Image Preview */}
-          <button type="submit" className="btn btn-primary">
-            Submit
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </>

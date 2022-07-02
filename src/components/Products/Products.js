@@ -3,6 +3,7 @@ import style from "./Products.module.css";
 import Product from "../Product/Product";
 import Pagination from "../Pagination/Pagination";
 import Filter from "../Filter/Filter";
+import Spinner from "../Spinner/Spinner";
 import axios from "axios";
 import {
   sortProducts,
@@ -37,6 +38,7 @@ class Products extends React.Component {
       productPerPage: initialProductPerPage,
       filterBy: "productName",
       ascending: true,
+      isFetch: true,
     };
     this.getProducts = this.getProducts.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
@@ -66,7 +68,7 @@ class Products extends React.Component {
         timestamp: new Date(Date.parse(product.createdAt.replace(/[-]/g, "/"))),
       };
     });
-    this.setState({ products: products });
+    this.setState({ products: products, isFetch: false });
   };
 
   // callback to change num of product per page based on breakpoints
@@ -119,28 +121,33 @@ class Products extends React.Component {
           onSortTypeChange={this.sortTypeChangeHandler}
           sortType={this.state.ascending}
         />
-        <div
-          className={`mt-2 container-fluid ${
-            this.state.products.length ? "bg-dark" : `${style.text_centered}`
-          } row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
-        >
-          {this.state.products.length ? (
-            this.state.products
-              .slice(minimumIdx, maximumIdx)
-              .map((product) => (
-                <Product
-                  user={this.props.user}
-                  attribute={product}
-                  key={product.id}
-                  balance={this.props.balance}
-                  getBalance={this.props.getBalance}
-                  getProducts={this.getProducts.bind(this)}
-                />
-              ))
-          ) : (
-            <h4>Oops, nothing product here!</h4>
-          )}
-        </div>
+        {this.state.isFetch ? (
+          <Spinner />
+        ) : (
+          <div
+            className={`mt-2 container-fluid ${
+              this.state.products.length ? "bg-dark" : `${style.text_centered}`
+            } row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
+          >
+            {this.state.products.length ? (
+              this.state.products
+                .slice(minimumIdx, maximumIdx)
+                .map((product) => (
+                  <Product
+                    user={this.props.user}
+                    attribute={product}
+                    key={product.id}
+                    balance={this.props.balance}
+                    getBalance={this.props.getBalance}
+                    getProducts={this.getProducts.bind(this)}
+                  />
+                ))
+            ) : (
+              <h4>Oops, nothing product here!</h4>
+            )}
+          </div>
+        )}
+
         {this.state.products.length ? (
           <Pagination onPageChange={this.pageChangeHandler} maxPage={maxPage} />
         ) : null}

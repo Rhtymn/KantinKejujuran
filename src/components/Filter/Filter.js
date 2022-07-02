@@ -19,7 +19,7 @@ class Filter extends React.Component {
       <div
         className={`${style.filter} container-fluid d-flex bg-dark justify-content-end align-items-center p-0 gap-2 py-1 pe-1`}
       >
-        <label className="fw-bold col-auto">Urutkan :</label>
+        <label className="fw-bold col-auto">Sort-by:</label>
         <select
           id="filter-option"
           className="col-auto p-0"
