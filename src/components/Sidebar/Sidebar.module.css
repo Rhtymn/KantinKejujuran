@@ -69,17 +69,9 @@
   color: white;
 }
 
-.user_logout_container button:hover {
-}
-
 @media (min-width: 768px) {
-  .user_logout_container {
-    top: 1px;
-    left: 145px;
-  }
   .user_logout_container button {
-    position: absolute;
-    transform: translate(0);
+    transform: rotate(0) translateX(19px);
   }
 }
 

@@ -6,6 +6,11 @@
   top: 0;
 } */
 
+.text_centered {
+  display: flex;
+  justify-content: center;
+}
+
 .products h1 {
   font-size: 2rem;
 }

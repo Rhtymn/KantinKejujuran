@@ -1,7 +1,7 @@
 import React from "react";
-import AddBalanceForm from "./AddBalanceForm";
+import AddBalanceForm from "../AddBalanceForm/AddBalanceForm";
 import style from "./CanteenBalance.module.css";
-import WithdrawBalanceForm from "./WithdrawBalanceForm";
+import WithdrawBalanceForm from "../WithdrawBalanceForm/WithdrawBalanceForm";
 import axios from "axios";
 class CanteenBalance extends React.Component {
   constructor(props) {

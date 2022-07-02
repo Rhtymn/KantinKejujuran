@@ -62,10 +62,10 @@ class Products extends React.Component {
         name: product.name,
         price: product.price,
         description: product.description,
+        imgUrl: product.url,
         timestamp: new Date(Date.parse(product.createdAt.replace(/[-]/g, "/"))),
       };
     });
-
     this.setState({ products: products });
   };
 
@@ -120,8 +120,8 @@ class Products extends React.Component {
           sortType={this.state.ascending}
         />
         <div
-          className={`${style["product_container"]} mt-2 container-fluid ${
-            this.state.products.length ? "bg-dark" : ""
+          className={`mt-2 container-fluid ${
+            this.state.products.length ? "bg-dark" : `${style.text_centered}`
           } row row-cols-md-2 row-cols-lg-2 row-cols-xxl-4`}
         >
           {this.state.products.length ? (
@@ -141,7 +141,9 @@ class Products extends React.Component {
             <h4>Oops, nothing product here!</h4>
           )}
         </div>
-        <Pagination onPageChange={this.pageChangeHandler} maxPage={maxPage} />
+        {this.state.products.length ? (
+          <Pagination onPageChange={this.pageChangeHandler} maxPage={maxPage} />
+        ) : null}
       </div>
     );
   }

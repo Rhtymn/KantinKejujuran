@@ -17,7 +17,7 @@ class SignForm extends React.Component {
 
   render() {
     return (
-      <div className="col">
+      <div className="col col-md-6 col-lg-4 py-3 mx-auto">
         <ul className="nav nav-tabs mt-2 mb-2">
           <li className="nav-item">
             <Link

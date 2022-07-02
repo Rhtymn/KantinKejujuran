@@ -88,10 +88,7 @@ class Sidebar extends React.Component {
               </li>
             ) : null}
           </ul>
-          {(this.props.user && this.state.sm) ||
-          (this.props.user &&
-            !this.state.sm &&
-            this.props.activeNav === "store") ? (
+          {this.props.user ? (
             <div className={`${style.user_logout_container} text-center`}>
               <Link to="/store">
                 <button
@@ -112,3 +109,23 @@ class Sidebar extends React.Component {
 }
 
 export default Sidebar;
+
+{
+  /* {(this.props.user && this.state.sm) ||
+          (this.props.user &&
+            !this.state.sm &&
+            this.props.activeNav === "store") ? (
+            <div className={`${style.user_logout_container} text-center`}>
+              <Link to="/store">
+                <button
+                  onClick={() => {
+                    this.props.updateUser(null);
+                    this.props.setActiveNav("store");
+                  }}
+                >
+                  Log Out
+                </button>
+              </Link>
+            </div>
+          ) : null} */
+}

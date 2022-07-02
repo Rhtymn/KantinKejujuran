@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import Input from "./Input";
 import TextArea from "./TextArea";
+import ImageDropZone from "../ImageDropZone/ImageDropZone";
+
 class ProductForm extends React.Component {
   constructor(props) {
     super(props);
@@ -9,12 +11,14 @@ class ProductForm extends React.Component {
       pName: "",
       pPrice: "",
       pDesc: "",
+      pImg: "",
       alert: { isAlert: false, message: "", type: "" },
     };
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.saveProduct = this.saveProduct.bind(this);
     this.alert = this.alert.bind(this);
     this.removeAlert = this.removeAlert.bind(this);
+    this.setImage = this.setImage.bind(this);
   }
 
   inputChangeHandler(e) {
@@ -35,8 +39,13 @@ class ProductForm extends React.Component {
   }
 
   async saveProduct(e) {
+    e.preventDefault();
     try {
-      e.preventDefault();
+      // image doesn't uploaded
+      if (!this.state.pImg) {
+        this.alert("Please upload product image", "alert-danger");
+      }
+
       // price input not number
       if (!+this.state.pPrice) {
         this.alert("Product price must a number", "alert-danger");
@@ -52,11 +61,18 @@ class ProductForm extends React.Component {
       }
 
       // add new product to database
-      await axios.post("http://localhost:5000/products", {
-        name: this.state.pName,
-        price: +this.state.pPrice,
-        description: this.state.pDesc,
-      });
+      await axios.post(
+        "http://localhost:5000/products",
+        {
+          name: this.state.pName,
+          price: this.state.pPrice,
+          description: this.state.pDesc,
+          file: this.state.pImg,
+        },
+        {
+          headers: { "Content-type": "multipart/form-data" },
+        }
+      );
 
       // update canteen balance to database
       await axios.patch("http://localhost:5000/canteen-balance/1", {
@@ -70,13 +86,17 @@ class ProductForm extends React.Component {
       this.alert("Success adding new product", "alert-success");
 
       // reset input element
-      this.setState({ pName: "", pPrice: "", pDesc: "" });
+      this.setState({ pName: "", pPrice: "", pDesc: "", pImg: "" });
 
       this.props.setActiveNav();
     } catch (error) {
       // alert failed add a product
       this.alert("Failed adding new product", "alert-danger");
     }
+  }
+
+  setImage(img) {
+    this.setState({ pImg: img });
   }
 
   render() {
@@ -113,6 +133,22 @@ class ProductForm extends React.Component {
             onInputChange={this.inputChangeHandler}
             onRemoveAlert={this.removeAlert}
           />
+          <ImageDropZone onSetImage={this.setImage} />
+          {/* Image Preview */}
+          {this.state.pImg ? (
+            <div className="">
+              <div
+                className="mb-3 border p-1"
+                style={{ width: "100px", height: "100px" }}
+              >
+                <img
+                  className="img-fluid"
+                  src={URL.createObjectURL(this.state.pImg)}
+                ></img>
+              </div>
+            </div>
+          ) : null}
+          {/* End of Image Preview */}
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

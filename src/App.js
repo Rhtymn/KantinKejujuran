@@ -10,7 +10,7 @@ import axios from "axios";
  * TODO
  * 1.Sidebar bug after login (DONE)
  * 2.Log out button (DONE)
- * 3.Upload product image fiture
+ * 3.Upload product image fiture (DONE)
  * 4.Add balance without buy product (DONE)
  * 5.Withdraw without add product (DONE)
  * 6.Refactoring code (DONE)
