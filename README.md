@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# Kantin Kejujuran
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Projek ini dibuat untuk memenuhi website challenge pada event SEA (Software Engineering Academy) 2022. Website yang dibuat merupakan digitalisasi dari proses jual beli yang terjadi pada kantin kejujuran di SD SEA SENTOSA. Pembeli dapat membeli produk, menjual produk, menambahkan dan mengambil uang pada canteen balance. Semua peristiwa/proses di atas dapat dilakukan melalui website yang telah dibuat. 
 
-## Available Scripts
+## Fitur
+1. Menambahkan produk untuk dijual pada kantin kejujuran, canteen balance akan otomatis berkurang sesuai harga produk yang ditambahkan
+2. Membeli produk di kantin kejujuran, produk yang dibeli akan secara otomatis terhapus dari list produk
+3. Menampilkan list produk yang ada pada kantin kejujuran beserta informasi mengenai produk tersebut (nama, harga, deskripsi, gambar)
+4. Terdapat informasi mengenai nama, harga, deskripsi, dan gambar pada setiap produk yang dijual
+5. Mengurutkan list produk berdasarkan nama produk dan waktu pada saat produk ditambahkan di kantin kejujuran
+6. Menambahkan uang pada canteen balance
+7. Mengambil uang pada canteen balance
+8. Melakukan registrasi, login, dan logout
 
-In the project directory, you can run:
+## Batasan Registrasi
+Hanya siswa yang memiliki student id valid yang dapat melakukan registrasi pada website. student id terdiri dari 5 digit angka dari 0-9. dua angka terakhir merupakan hasil penjumlahan dari tiga digit pertama.
+Contoh :
+  1. 55616
+  2. 33410
+  3. 11103
 
-### `npm start`
+## Single Role
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Hanya terdapat satu role pada website yang dibuat, yaitu user. user yang telah ter-registrasi dapat menggunakan semua fitur yang sudah dijelaskan di atas. Sedangkan user yang belum teregistrasi hanya dapat melihat list produk (tidak bisa membeli).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How to use
+1. Install all dependencies using `npm install` command
+2. Run the website using `npm run start` command
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*Note: Jalankan terlebih dahulu program backend yang berada pada folder backend
