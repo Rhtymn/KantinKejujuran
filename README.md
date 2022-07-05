@@ -27,4 +27,4 @@ Hanya terdapat satu role pada website yang dibuat, yaitu user. user yang telah t
 1. Install all dependencies using `npm install` command
 2. Run the website using `npm run start` command
 
-*Note: Jalankan terlebih dahulu program backend yang berada pada folder backend
+*Note: Jalankan terlebih dahulu program backend yang berada pada backend repository
