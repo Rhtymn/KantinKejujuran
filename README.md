@@ -23,7 +23,7 @@ Contoh :
 
 Hanya terdapat satu role pada website yang dibuat, yaitu user. user yang telah ter-registrasi dapat menggunakan semua fitur yang sudah dijelaskan di atas. Sedangkan user yang belum teregistrasi hanya dapat melihat list produk (tidak bisa membeli).
 
-## How to use
+## How to run locally
 1. Install all dependencies using `npm install` command
 2. Run the website using `npm run start` command
 
